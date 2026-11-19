@@ -47,6 +47,12 @@ python scripts/clean_data.py `
 
 目前 repository 內已有 Agent 1 的標準化腳本。Agent 2 和 Agent 3 的腳本完成後，會在相同的 `output/` 目錄交接結果，不改動 Agent 1 的輸出欄位。
 
+成員一可在 Agent 2 接手前執行合約檢查：
+
+```powershell
+python scripts/validate_agent1_output.py
+```
+
 ## 測試資料刻意包含的情境
 
 - `per_100ml` 和 `per_100g` 的單位換算。
