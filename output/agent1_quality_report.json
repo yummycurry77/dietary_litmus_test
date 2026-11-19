@@ -1,0 +1,15 @@
+{
+  "input_file": "sample-data/weekly_diet_log.csv",
+  "total_input_rows": 23,
+  "valid_rows": 20,
+  "unit_converted_count": 5,
+  "missing_filled_count": 2,
+  "excluded_count": 3,
+  "logs": [
+    "第5列 [50嵐 珍珠紅茶拿鐵(半糖大杯)] 缺值欄位 ['kcal', 'protein_g', 'sugar_g'] 已依基準庫補齊",
+    "第12列 [超商異常測試熱狗] 數值異常已剔除：單份熱量異常 (-150.0 kcal)",
+    "第17列 [清心福全 優多綠茶(半糖大杯)] 缺值欄位 ['protein_g', 'sugar_g'] 已依基準庫補齊",
+    "第18列 [路邊攤無標示滷味] 缺值欄位 ['kcal', 'fat_g'] 且基準庫查無此品項，已排除",
+    "第24列 [誤植熱量手搖飲] 數值異常已剔除：單份熱量異常 (12500.0 kcal)"
+  ]
+}
