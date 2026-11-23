@@ -1,0 +1,18 @@
+# Project-level demonstration thresholds.
+# These values are configurable analysis rules, not a medical diagnosis or a
+# standalone legal determination. Cite an official source before presenting a
+# threshold as a regulatory requirement.
+
+sugar:
+  warning_g_per_day: 50
+  warning_energy_share: 0.10
+
+formula_audit:
+  relative_error_warning: 0.20
+
+quality_limits:
+  kcal_max_per_base_serving: 3000
+  protein_max_g_per_base_serving: 150
+  fat_max_g_per_base_serving: 150
+  carbs_max_g_per_base_serving: 300
+  sugar_max_g_per_base_serving: 200
