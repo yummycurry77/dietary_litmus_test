@@ -18,7 +18,7 @@
 ```
 
 詳細啟動條件、例外處理和品質門檻請見 [`SKILL.md`](SKILL.md)；欄位與檔案交接規格請見 [`DATA_CONTRACT.md`](DATA_CONTRACT.md)。
-成員一的分階段工作與完成定義請見 [`MEMBER1_PLAN.md`](MEMBER1_PLAN.md)。
+成員一的分階段工作與完成定義請見 [`MEMBER1_PLAN.md`](MEMBER1_PLAN.md)；Agent 1 的整合評估請見 [`AGENT1_REVIEW.md`](AGENT1_REVIEW.md)。
 
 ## 目錄
 
