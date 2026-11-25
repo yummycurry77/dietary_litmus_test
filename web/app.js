@@ -44,5 +44,7 @@ $('#manualForm').addEventListener('submit',(event)=>{ event.preventDefault(); co
 $('#csvInput').addEventListener('change',(event)=>{ if(event.target.files[0]) alert('CSV 已收到。正式版本會交給 Agent 1 標準化後再進入報表。'); });
 $('#profileButton').addEventListener('click',()=>openProfile());
 $('#profileForm').addEventListener('submit',(event)=>{ event.preventDefault(); const data=Object.fromEntries(new FormData(event.target)); data.height_cm=Number(data.height_cm); data.weight_kg=Number(data.weight_kg); data.age=Number(data.age); profile=data; localStorage.setItem(profileKey,JSON.stringify(profile)); $('#profileDialog').close(); $('#profileName').textContent=`${profile.height_cm}cm／${profile.weight_kg}kg`; render(); });
+$('#profileDialog').addEventListener('cancel',(event)=>{ if (!profile) event.preventDefault(); });
+$('#profileForm .close-button').addEventListener('click',(event)=>{ if (!profile) event.preventDefault(); });
 if (profile) { $('#profileName').textContent=`${profile.height_cm}cm／${profile.weight_kg}kg`; } else { setTimeout(()=>openProfile(false),250); }
 render();
