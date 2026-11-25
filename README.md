@@ -20,6 +20,7 @@
 詳細啟動條件、例外處理和品質門檻請見 [`SKILL.md`](SKILL.md)；欄位與檔案交接規格請見 [`DATA_CONTRACT.md`](DATA_CONTRACT.md)。
 成員一的分階段工作與完成定義請見 [`MEMBER1_PLAN.md`](MEMBER1_PLAN.md)；Agent 1 的整合評估請見 [`AGENT1_REVIEW.md`](AGENT1_REVIEW.md)。
 測試紀錄模板請見 [`test-report.md`](test-report.md)，整合檢查請見 [`INTEGRATION_CHECKLIST.md`](INTEGRATION_CHECKLIST.md)。
+四位組員的完整分工請見 [`TEAM_WORK_PLAN.md`](TEAM_WORK_PLAN.md)。
 
 ## 目錄
 
