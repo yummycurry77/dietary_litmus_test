@@ -1,4 +1,6 @@
-# dietary_litmus_test 飲食石蕊試紙
+# 飲食照妖鏡
+
+技術 repository 名稱：`dietary_litmus_test`
 
 ## 專案目的
 
