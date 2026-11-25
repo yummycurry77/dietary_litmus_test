@@ -24,12 +24,12 @@
 
 | 欄位 | 格式 | 說明 |
 |---|---|---|
-| `source_type` | 文字 | `ocr`、`video`、`manual`、`csv` 或 `database` |
+| `source_type` | 文字 | `ai_image`、`ai_video`、`manual`、`csv` 或 `database` |
 | `source_reference` | 文字 | 上傳檔案識別、資料來源或 `user-entered` |
 | `confidence` | 0 至 1 或空白 | OCR／影片辨識信心值；手動輸入可留空 |
 | `user_confirmed` | 布林值 | 使用者確認前為 `false`，確認後才可進入統計 |
 
-`source_type=ocr` 或 `video` 的資料必須先進入待確認狀態。未確認資料不可交給 Agent 2 統計；若辨識結果被修改，網站要保留修改後的數值和來源標記。
+`source_type=ai_image` 或 `ai_video` 的資料必須先進入待確認狀態。未確認資料不可交給 Agent 2 統計；若 AI 分析結果被修改，網站要保留修改後的數值和來源標記。AI API 金鑰只能放在後端環境變數。
 
 ## Agent 1 輸出
 

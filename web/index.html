@@ -30,7 +30,7 @@
           </div>
         </div>
         <div class="capture-actions">
-          <button class="button button-primary" id="photoButton">上傳照片</button>
+          <button class="button button-primary" id="photoButton">交給 AI 分析照片</button>
           <button class="button button-secondary" id="manualButton">手動輸入</button>
         </div>
         <input id="photoInput" type="file" accept="image/*,video/*" hidden />
@@ -46,7 +46,9 @@
           <button class="period-tab" data-period="week">本週</button>
           <button class="period-tab" data-period="month">本月</button>
         </div>
+        <button class="profile-chip" id="profileButton"><span class="profile-avatar">身</span><span><b id="profileName">我的檔案</b><small>編輯身體指數</small></span></button>
       </section>
+      <section class="recommendation-strip" id="recommendationStrip"></section>
 
       <section class="metric-grid" id="metricGrid"></section>
 
@@ -78,8 +80,20 @@
         </article>
       </section>
 
-      <footer>原型資料僅供展示。正式版本會接上 OCR、資料庫與三角色分析流程。</footer>
+      <footer>原型資料僅供展示。正式版本會接上 AI 分析、資料庫與三角色流程。</footer>
     </main>
+
+    <dialog id="profileDialog">
+      <form method="dialog" id="profileForm" class="manual-form profile-form">
+        <div class="panel-title-row"><div><p class="section-kicker">第一次設定</p><h3>先建立你的身體指數</h3></div><button class="close-button" value="cancel">×</button></div>
+        <p class="dialog-copy">身高和體重是必要資料；其他欄位能讓每日建議更貼近你的狀況。資料只保存在這個瀏覽器。</p>
+        <div class="form-row"><label>身高 cm<input name="height_cm" type="number" min="80" max="250" required placeholder="例如 165" /></label><label>體重 kg<input name="weight_kg" type="number" min="25" max="300" step="0.1" required placeholder="例如 60" /></label></div>
+        <div class="form-row"><label>年齡<input name="age" type="number" min="13" max="100" required placeholder="例如 25" /></label><label>生理性別<select name="sex" required><option value="female">女性</option><option value="male">男性</option></select></label></div>
+        <label>平常活動量<select name="activity"><option value="1.2">久坐，少運動</option><option value="1.375">每週運動 1–3 天</option><option value="1.55">每週運動 3–5 天</option><option value="1.725">每週運動 6–7 天</option></select></label>
+        <label>目前目標<select name="goal"><option value="maintain">維持體重</option><option value="lose">減脂</option><option value="gain">增加肌肉</option></select></label>
+        <button class="button button-primary full-button" value="default">儲存身體指數</button>
+      </form>
+    </dialog>
 
     <dialog id="manualDialog">
       <form method="dialog" id="manualForm" class="manual-form">
