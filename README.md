@@ -21,6 +21,7 @@
 成員一的分階段工作與完成定義請見 [`MEMBER1_PLAN.md`](MEMBER1_PLAN.md)；Agent 1 的整合評估請見 [`AGENT1_REVIEW.md`](AGENT1_REVIEW.md)。
 測試紀錄模板請見 [`test-report.md`](test-report.md)，整合檢查請見 [`INTEGRATION_CHECKLIST.md`](INTEGRATION_CHECKLIST.md)。
 四位組員的完整分工請見 [`TEAM_WORK_PLAN.md`](TEAM_WORK_PLAN.md)。
+組員一的網站介面與實作規格請見 [`MEMBER1_IMPLEMENTATION.md`](MEMBER1_IMPLEMENTATION.md)。
 
 ## 目錄
 
@@ -54,6 +55,24 @@ python scripts/clean_data.py `
 ```powershell
 python scripts/validate_agent1_output.py
 ```
+
+### 組員一目前已完成
+
+- 建立 Skill 核心流程與啟動邊界。
+- 定義三個 Agent 的資料交接合約。
+- 建立 GitHub 分支、PR 和合併規範。
+- 建立 Agent 1 合約驗證工具。
+- 建立 A／B／C 測試模板與整合檢查清單。
+- 建立匿名資料檢查工具。
+- 定義網站的照片、影片、CSV 和手動輸入介面。
+
+### 組員一後續工作
+
+- 審查組員三的 Agent 2 PR。
+- 審查組員四的 Agent 3 PR。
+- 執行完整三角色流程與 A／B／C 測試。
+- 確認網站、影片、AI Tutor 和 GitHub 使用同一版本。
+- 完成匿名 ZIP 與最終交付檢查。
 
 ## 測試資料刻意包含的情境
 
