@@ -109,7 +109,7 @@
 | 本次覆核納入列數 | 20 |
 | 本次排除列數 | 3 |
 
-Agent 2 每日摘要：`output/daily_summary.csv` 尚未產生，本次覆核不交叉引用。
+Agent 2 每日摘要：`output/daily_summary.csv` 已存在，可與本報告交叉比對同一批標準化資料。
 
 ## 六、資料來源與限制聲明
 
