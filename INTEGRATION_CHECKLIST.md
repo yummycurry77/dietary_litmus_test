@@ -13,12 +13,12 @@
 
 ## Agent 2
 
-- [ ] 只統計 `OK` 和 `MISSING_FILLED`
-- [ ] 缺少日期或營養數值時有明確錯誤訊息
-- [ ] 每日合計、每週平均和圖表使用相同資料範圍
-- [ ] PFC 分母為零時不產生 NaN 或無限值
-- [ ] 糖分警示門檻從 `references/thresholds.yml` 讀取
-- [ ] 輸出檔名和欄位符合 `DATA_CONTRACT.md`
+- [x] 只統計 `OK` 和 `MISSING_FILLED`
+- [x] 缺少日期或營養數值時有明確錯誤訊息
+- [x] 每日合計、每週平均和圖表使用相同資料範圍
+- [x] PFC 分母為零時不產生 NaN 或無限值
+- [x] 糖分警示門檻從 `references/thresholds.yml` 讀取
+- [x] 輸出檔名和欄位符合 `DATA_CONTRACT.md`
 
 ## Agent 3
 

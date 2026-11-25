@@ -52,10 +52,61 @@
 
 ## Agent 2 輸出
 
-- `output/daily_summary.csv`：日期、有效熱量、蛋白質、脂肪、碳水、糖分、PFC 百分比和糖分警示狀態。
-- `output/weekly_summary.json`：有效日數、每日平均值、糖分警示日清單和使用的門檻。
+- Agent 2 只統計 Agent 1 的 `status_flag` 為 `OK` 或 `MISSING_FILLED` 的資料列。`EXCLUDED_UNRESOLVABLE_MISSING` 和 `EXCLUDED_ANOMALY` 不得進入任何合計、平均、比例或排名。
+
+- `output/daily_summary.csv`：每一列代表一個有有效資料的日期，欄位固定如下：
+
+| 欄位 | 單位／格式 | 說明 |
+|---|---|---|
+| `date` | `YYYY-MM-DD` | 統計日期 |
+| `total_kcal` | kcal | 當日有效資料的熱量總和 |
+| `total_protein_g` | g | 當日蛋白質總和 |
+| `total_fat_g` | g | 當日脂肪總和 |
+| `total_carbs_g` | g | 當日碳水總和 |
+| `total_sugar_g` | g | 當日糖分總和 |
+| `protein_pct` | % | 蛋白質熱量占 PFC 熱量百分比 |
+| `fat_pct` | % | 脂肪熱量占 PFC 熱量百分比 |
+| `carbs_pct` | % | 碳水熱量占 PFC 熱量百分比 |
+| `sugar_warning` | `TRUE`／`FALSE` | 糖分克數或糖分熱量占比達到設定門檻時為 `TRUE` |
+
+  PFC 熱量公式為 `protein_g × 4`、`carbs_g × 4`、`fat_g × 9`。PFC 分母為零時，三個百分比必須輸出 `0.0`。
+
+- `output/weekly_summary.json`：一個 JSON 物件，欄位固定如下：
+
+| 欄位 | 格式 | 說明 |
+|---|---|---|
+| `period` | `YYYY-MM-DD/YYYY-MM-DD` | 輸入有效資料的涵蓋期間 |
+| `valid_days` | 整數 | 有效資料日期數，不包含全為排除列的日期 |
+| `daily_average` | 物件 | `total_kcal`、`total_protein_g`、`total_fat_g`、`total_carbs_g`、`total_sugar_g` 的有效日平均 |
+| `sugar_warning_days` | 日期陣列 | `daily_summary.csv` 中 `sugar_warning=TRUE` 的日期 |
+| `highest_calorie_day` | 物件 | `date` 與 `total_kcal`；同分時取日期較早者 |
+| `frequent_items` | 物件陣列 | 依出現次數遞減的常吃品項摘要，包含 `item_name`、`count`、`total_kcal`、`total_sugar_g` |
+| `item_counts` | 物件 | 品項名稱到有效出現次數的映射 |
+| `category_summary` | 物件陣列 | 依 `meal_type` 分類，包含 `meal_type`、`count`、`total_kcal`、`total_protein_g`、`total_fat_g`、`total_carbs_g`、`total_sugar_g` |
+| `thresholds` | 物件 | 原樣記錄 `references/thresholds.yml` 的 `sugar.warning_g_per_day` 與 `sugar.warning_energy_share` |
+| `source` | 物件 | `input_file`、`included_status_flags` 和 `valid_row_count`，供追溯統計範圍 |
+
+  `frequent_items` 預設列出所有品項並依 `count` 遞減、品名排序；使用者介面可再取前 N 名。`category_summary` 使用輸入欄位 `meal_type` 作為類別，因 Agent 1 輸出沒有額外的食品類別欄位。
+
+- `output/monthly_summary.csv`：每一列代表一個月份，欄位固定如下：
+
+| 欄位 | 單位／格式 | 說明 |
+|---|---|---|
+| `month` | `YYYY-MM` | 統計月份 |
+| `valid_days` | 整數 | 該月份有有效資料的日期數 |
+| `total_kcal` | kcal | 月熱量總和 |
+| `total_protein_g` | g | 月蛋白質總和 |
+| `total_fat_g` | g | 月脂肪總和 |
+| `total_carbs_g` | g | 月碳水總和 |
+| `total_sugar_g` | g | 月糖分總和 |
+| `average_kcal_per_day` | kcal/day | 以有效日數計算的每日平均熱量 |
+| `average_sugar_g_per_day` | g/day | 以有效日數計算的每日平均糖分 |
+| `sugar_warning_days` | 整數 | 該月份糖分警示日數 |
+
 - `output/nutrition_trend.png`：每日熱量與糖分趨勢圖。
 - `output/pfc_breakdown.png`：PFC 熱量占比圖。
+
+糖分警示門檻必須從 `references/thresholds.yml` 讀取：當日 `total_sugar_g` 大於或等於 `warning_g_per_day`，或當日糖分熱量（糖分克數 × 4）除以 `total_kcal` 大於或等於 `warning_energy_share` 時，`sugar_warning` 為 `TRUE`。當 `total_kcal` 為零時，只依糖分克數門檻判斷，且不得除以零。
 
 ## Agent 3 輸出
 

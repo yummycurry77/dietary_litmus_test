@@ -1,0 +1,205 @@
+{
+  "period": "2026-11-10/2026-11-16",
+  "valid_days": 7,
+  "daily_average": {
+    "total_kcal": 1039.0,
+    "total_protein_g": 47.81,
+    "total_fat_g": 27.34,
+    "total_carbs_g": 153.53,
+    "total_sugar_g": 43.63
+  },
+  "sugar_warning_days": [
+    "2026-11-10",
+    "2026-11-11",
+    "2026-11-13",
+    "2026-11-14",
+    "2026-11-15",
+    "2026-11-16"
+  ],
+  "highest_calorie_day": {
+    "date": "2026-11-11",
+    "total_kcal": 1554.4
+  },
+  "frequent_items": [
+    {
+      "item_name": "全家 健身G肉餐盒",
+      "count": 3,
+      "total_kcal": 1536.0,
+      "total_sugar_g": 10.5
+    },
+    {
+      "item_name": "7-11 雙拼炸雞排便當",
+      "count": 2,
+      "total_kcal": 1770.0,
+      "total_sugar_g": 16.4
+    },
+    {
+      "item_name": "50嵐 四季春珍波椰(微糖大杯)",
+      "count": 1,
+      "total_kcal": 390.0,
+      "total_sugar_g": 38.5
+    },
+    {
+      "item_name": "50嵐 珍珠紅茶拿鐵(半糖大杯)",
+      "count": 1,
+      "total_kcal": 465.0,
+      "total_sugar_g": 42.0
+    },
+    {
+      "item_name": "7-11 宗家府泡菜豬肉鍋",
+      "count": 1,
+      "total_kcal": 348.0,
+      "total_sugar_g": 6.5
+    },
+    {
+      "item_name": "7-11 石安牧場溫泉蛋",
+      "count": 1,
+      "total_kcal": 158.0,
+      "total_sugar_g": 1.0
+    },
+    {
+      "item_name": "7-11 紐奧良風味鮮蔬烤雞三明治",
+      "count": 1,
+      "total_kcal": 248.0,
+      "total_sugar_g": 4.2
+    },
+    {
+      "item_name": "7-11 鮪魚御飯糰",
+      "count": 1,
+      "total_kcal": 215.0,
+      "total_sugar_g": 1.5
+    },
+    {
+      "item_name": "光泉無加糖濃豆漿",
+      "count": 1,
+      "total_kcal": 206.2,
+      "total_sugar_g": 2.2
+    },
+    {
+      "item_name": "全家 匠土司醇乳香土司",
+      "count": 1,
+      "total_kcal": 239.0,
+      "total_sugar_g": 5.8
+    },
+    {
+      "item_name": "全家 夯番薯(中)",
+      "count": 1,
+      "total_kcal": 204.6,
+      "total_sugar_g": 14.2
+    },
+    {
+      "item_name": "全家 舒肥嫩雞胸(法式香草)",
+      "count": 1,
+      "total_kcal": 194.4,
+      "total_sugar_g": 0.9
+    },
+    {
+      "item_name": "可不可 熟成紅茶(全糖大杯)",
+      "count": 1,
+      "total_kcal": 260.0,
+      "total_sugar_g": 62.0
+    },
+    {
+      "item_name": "清心福全 優多綠茶(半糖大杯)",
+      "count": 1,
+      "total_kcal": 310.0,
+      "total_sugar_g": 51.0
+    },
+    {
+      "item_name": "義美無糖高纖豆漿",
+      "count": 1,
+      "total_kcal": 180.8,
+      "total_sugar_g": 3.2
+    },
+    {
+      "item_name": "超商高纖代糖機能飲",
+      "count": 1,
+      "total_kcal": 110.0,
+      "total_sugar_g": 1.5
+    },
+    {
+      "item_name": "麻古茶坊 芝芝金萱雙Q(微糖大杯)",
+      "count": 1,
+      "total_kcal": 438.0,
+      "total_sugar_g": 44.0
+    }
+  ],
+  "item_counts": {
+    "50嵐 四季春珍波椰(微糖大杯)": 1,
+    "50嵐 珍珠紅茶拿鐵(半糖大杯)": 1,
+    "7-11 宗家府泡菜豬肉鍋": 1,
+    "7-11 石安牧場溫泉蛋": 1,
+    "7-11 紐奧良風味鮮蔬烤雞三明治": 1,
+    "7-11 雙拼炸雞排便當": 2,
+    "7-11 鮪魚御飯糰": 1,
+    "光泉無加糖濃豆漿": 1,
+    "全家 健身G肉餐盒": 3,
+    "全家 匠土司醇乳香土司": 1,
+    "全家 夯番薯(中)": 1,
+    "全家 舒肥嫩雞胸(法式香草)": 1,
+    "可不可 熟成紅茶(全糖大杯)": 1,
+    "清心福全 優多綠茶(半糖大杯)": 1,
+    "義美無糖高纖豆漿": 1,
+    "超商高纖代糖機能飲": 1,
+    "麻古茶坊 芝芝金萱雙Q(微糖大杯)": 1
+  },
+  "category_summary": [
+    {
+      "meal_type": "下午茶",
+      "count": 3,
+      "total_kcal": 1165.0,
+      "total_protein_g": 9.5,
+      "total_fat_g": 10.5,
+      "total_carbs_g": 258.5,
+      "total_sugar_g": 131.5
+    },
+    {
+      "meal_type": "午餐",
+      "count": 6,
+      "total_kcal": 2963.4,
+      "total_protein_g": 209.5,
+      "total_fat_g": 86.8,
+      "total_carbs_g": 335.9,
+      "total_sugar_g": 26.1
+    },
+    {
+      "meal_type": "早餐",
+      "count": 6,
+      "total_kcal": 1293.6,
+      "total_protein_g": 63.6,
+      "total_fat_g": 34.2,
+      "total_carbs_g": 182.9,
+      "total_sugar_g": 31.1
+    },
+    {
+      "meal_type": "晚餐",
+      "count": 2,
+      "total_kcal": 1043.0,
+      "total_protein_g": 45.6,
+      "total_fat_g": 46.9,
+      "total_carbs_g": 109.4,
+      "total_sugar_g": 9.2
+    },
+    {
+      "meal_type": "飲料",
+      "count": 3,
+      "total_kcal": 808.0,
+      "total_protein_g": 6.5,
+      "total_fat_g": 13.0,
+      "total_carbs_g": 188.0,
+      "total_sugar_g": 107.5
+    }
+  ],
+  "thresholds": {
+    "warning_g_per_day": 50.0,
+    "warning_energy_share": 0.1
+  },
+  "source": {
+    "input_file": "output/cleaned_diet_log.csv",
+    "included_status_flags": [
+      "MISSING_FILLED",
+      "OK"
+    ],
+    "valid_row_count": 20
+  }
+}
