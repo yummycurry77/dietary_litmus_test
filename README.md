@@ -23,6 +23,18 @@
 四位組員的完整分工請見 [`TEAM_WORK_PLAN.md`](TEAM_WORK_PLAN.md)。
 組員一的網站介面與實作規格請見 [`MEMBER1_IMPLEMENTATION.md`](MEMBER1_IMPLEMENTATION.md)。
 
+## 網站原型
+
+網站原型位於 `web/`，目前可展示手動新增、示範資料、CSV／照片輸入入口、日／週／月切換、營養摘要、PFC、糖分警示與個人化建議。現階段使用瀏覽器端示範資料，尚未連接 OCR、資料庫或 Agent 2／Agent 3。
+
+在 repository 根目錄啟動本機預覽：
+
+```powershell
+python -m http.server 8000 --directory web
+```
+
+然後開啟 <http://localhost:8000>。照片和 CSV 按鈕目前是輸入流程展示；正式版本要接到 Agent 1，先讓使用者確認 OCR 結果，再寫入統計資料。
+
 ## 目錄
 
 ```text
