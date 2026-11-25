@@ -10,6 +10,12 @@ sugar:
 formula_audit:
   relative_error_warning: 0.20
 
+# Single-item trigger for swap suggestions in output/recommendations.md.
+# Project demonstration setting, not a regulatory or medical threshold.
+swap_trigger:
+  kcal_min_per_item: 700
+  sugar_g_min_per_item: 25
+
 quality_limits:
   kcal_max_per_base_serving: 3000
   protein_max_g_per_base_serving: 150
