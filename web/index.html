@@ -70,7 +70,7 @@
 
       <section class="content-grid lower-grid">
         <article class="panel records-panel">
-          <div class="panel-title-row"><div><p class="section-kicker">最近紀錄</p><h3>已確認的飲食</h3></div><button class="text-button" id="clearButton">清除示範資料</button></div>
+          <div class="panel-title-row"><div><p class="section-kicker">最近紀錄</p><h3>已確認的飲食</h3></div><button class="text-button" id="clearButton">清除目前紀錄</button></div>
           <div id="recordsList" class="records-list"></div>
         </article>
         <article class="panel insight-panel">
@@ -85,7 +85,7 @@
 
     <dialog id="profileDialog">
       <form method="dialog" id="profileForm" class="manual-form profile-form">
-        <div class="panel-title-row"><div><p class="section-kicker">第一次設定</p><h3>先建立你的身體指數</h3></div><button class="close-button" value="cancel">×</button></div>
+        <div class="panel-title-row"><div><p class="section-kicker">第一次設定</p><h3>先建立你的身體指數</h3></div><button type="button" class="close-button" id="profileClose">×</button></div>
         <p class="dialog-copy">身高和體重是必要資料；其他欄位能讓每日建議更貼近你的狀況。資料只保存在這個瀏覽器。</p>
         <div class="form-row"><label>身高 cm<input name="height_cm" type="number" min="80" max="250" required placeholder="例如 165" /></label><label>體重 kg<input name="weight_kg" type="number" min="25" max="300" step="0.1" required placeholder="例如 60" /></label></div>
         <div class="form-row"><label>年齡<input name="age" type="number" min="13" max="100" required placeholder="例如 25" /></label><label>生理性別<select name="sex" required><option value="female">女性</option><option value="male">男性</option></select></label></div>
@@ -97,7 +97,7 @@
 
     <dialog id="manualDialog">
       <form method="dialog" id="manualForm" class="manual-form">
-        <div class="panel-title-row"><div><p class="section-kicker">手動輸入</p><h3>新增一筆飲食</h3></div><button class="close-button" value="cancel">×</button></div>
+        <div class="panel-title-row"><div><p class="section-kicker">手動輸入</p><h3>新增一筆飲食</h3></div><button type="button" class="close-button" id="manualClose">×</button></div>
         <label>品項名稱<input name="item_name" required placeholder="例如：全麥堅果吐司" /></label>
         <div class="form-row"><label>餐別<select name="meal_type"><option>早餐</option><option>午餐</option><option>晚餐</option><option>點心</option><option>飲料</option></select></label><label>日期<input name="date" type="date" required /></label></div>
         <div class="form-row"><label>熱量 kcal<input name="kcal" type="number" min="0" required /></label><label>糖分 g<input name="sugar_g" type="number" min="0" required /></label></div>

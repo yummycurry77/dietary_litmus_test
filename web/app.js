@@ -22,7 +22,7 @@ const demoRecords = [
   { date:'2026-11-16', meal_type:'下午茶', item_name:'四季春珍波椰（微糖大杯）', kcal:390, protein_g:1.2, fat_g:1.5, carbs_g:93, sugar_g:38.5, fiber_g:0.5, vegetable_servings:0 },
   { date:'2026-11-16', meal_type:'晚餐', item_name:'雞胸沙拉盒', kcal:328, protein_g:31.2, fat_g:9.5, carbs_g:25.1, sugar_g:6.8, fiber_g:6.5, vegetable_servings:2 },
 ];
-let records = [...demoRecords]; let period = 'week';
+let records = []; let period = 'week';
 const profileKey = 'dietary-litmus-profile';
 let profile = JSON.parse(localStorage.getItem(profileKey) || 'null');
 const $ = (selector) => document.querySelector(selector);
@@ -38,7 +38,7 @@ function render() {
   $('#metricGrid').innerHTML = [['熱量',Math.round(avgKcal),'kcal／日','日均攝取'],['蛋白質',Math.round(protein/divisor),'g','平均攝取'],['糖分',Math.round(sugar/divisor),'g／日',warning?'需要留意':'目前穩定'],['有效紀錄',rows.length,'筆','已確認資料']].map((m,i)=>`<div class="metric ${i===2&&warning?'warn':''}"><span class="metric-label">${m[0]}</span><div class="metric-value">${m[1]}<small>${m[2]}</small></div><span class="metric-note">${m[3]}</span></div>`).join('');
   const max = Math.max(...days.map(d=>d.kcal), 1); $('#trendChart').innerHTML = days.map(d=>`<div class="chart-day"><div class="bar kcal" style="height:${Math.max(6,d.kcal/max*160)}px" title="${d.kcal} kcal"></div><div class="bar sugar" style="height:${Math.max(6,d.sugar/80*160)}px" title="${d.sugar} g 糖分"></div><span class="chart-label">${d.date.slice(5)}</span></div>`).join('');
   const p = protein*4, f = fat*9, c = carbs*4, total = p+f+c || 1; $('#pfcList').innerHTML = [['蛋白質',p,'var(--green)'],['脂肪',f,'var(--yellow)'],['碳水',c,'var(--pink)']].map(x=>`<div class="pfc-item"><i style="background:${x[2]}"></i><span>${x[0]}<small> ${Math.round(x[1]/total*100)}%</small></span><strong>${Math.round(x[1])} kcal</strong></div>`).join('');
-  $('#recordsList').innerHTML = rows.slice(-6).reverse().map(r=>`<div class="record"><div><div class="record-name">${r.item_name}</div><div class="record-meta">${r.date} · ${r.meal_type} · 糖分 ${r.sugar_g}g</div></div><div class="record-kcal">${r.kcal} kcal</div></div>`).join('') || '<p class="record-meta">目前沒有紀錄。</p>';
+  $('#recordsList').innerHTML = rows.slice().sort((a,b)=>`${b.date}${b.meal_type}`.localeCompare(`${a.date}${a.meal_type}`)).map(r=>`<div class="record"><div><div class="record-name">${r.item_name}</div><div class="record-meta"><span class="record-date">${r.date}</span>${r.meal_type} · 糖分 ${r.sugar_g}g</div></div><div class="record-kcal">${r.kcal} kcal</div></div>`).join('') || '<p class="record-meta">目前沒有紀錄，請按「載入示範資料」或新增一筆飲食。</p>';
   const avgFiber = fiber / divisor; const avgVeg = vegetables / divisor; const proteinTarget = targets?.protein || 75; const gapCards = [];
   if (protein / divisor < proteinTarget * .8) gapCards.push(`<div class="insight gap"><strong>蛋白質攝取不足</strong><p>目前平均 ${Math.round(protein/divisor)}g，低於你的建議 ${proteinTarget}g。</p><span class="insight-meta">可從你常吃的便當、雞胸肉或無糖豆漿開始增加。</span></div>`);
   if (avgFiber < 20) gapCards.push(`<div class="insight gap"><strong>膳食纖維不足</strong><p>目前平均 ${avgFiber.toFixed(1)}g，建議逐步接近每日 25g。</p><span class="insight-meta">你常吃吐司，可以試試全麥堅果吐司，或在早餐加一份堅果。</span></div>`);
@@ -57,6 +57,8 @@ function openProfile(fill = true) { const form = $('#profileForm'); if (fill && 
 $('#demoButton').addEventListener('click',()=>{ records=[...demoRecords]; render(); });
 $('#clearButton').addEventListener('click',()=>{ records=[]; render(); });
 $('#manualButton').addEventListener('click',()=>{ $('#manualForm').reset(); $('#manualForm input[name=date]').value='2026-11-10'; $('#manualDialog').showModal(); });
+$('#manualClose').addEventListener('click',()=>$('#manualDialog').close());
+$('#profileClose').addEventListener('click',()=>{ if (profile) $('#profileDialog').close(); });
 $('#photoButton').addEventListener('click',()=>$('#photoInput').click());
 $('#photoInput').addEventListener('change',(e)=>{ if(e.target.files[0]) { const file=e.target.files[0]; alert(`已將「${file.name}」送交 AI 食物分析。正式版本會回傳品項、份量、營養值與信心狀態，確認後才會加入報告。`); } });
 document.querySelectorAll('.period-tab').forEach(button=>button.addEventListener('click',()=>{ document.querySelectorAll('.period-tab').forEach(b=>b.classList.remove('active')); button.classList.add('active'); period=button.dataset.period; render(); }));
