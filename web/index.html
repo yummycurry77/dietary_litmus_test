@@ -107,6 +107,20 @@
         <button class="button button-primary full-button" value="default">儲存並加入報告</button>
       </form>
     </dialog>
+    <dialog id="photoDialog">
+      <form method="dialog" id="photoForm" class="manual-form">
+        <div class="panel-title-row"><div><p class="section-kicker">AI 圖片分析</p><h3>確認分析結果</h3></div><button type="button" class="close-button" id="photoClose">×</button></div>
+        <img id="photoPreview" class="photo-preview" alt="待確認的食物照片" />
+        <p id="photoStatus" class="dialog-copy">分析結果會先顯示在這裡，請確認後才會加入報表。</p>
+        <label>品項名稱<input name="item_name" required placeholder="例如：全麥堅果吐司" /></label>
+        <div class="form-row"><label>餐別<select name="meal_type"><option>早餐</option><option>午餐</option><option>晚餐</option><option>點心</option><option>飲料</option></select></label><label>日期<input name="date" type="date" required /></label></div>
+        <div class="form-row"><label>熱量 kcal<input name="kcal" type="number" min="0" required /></label><label>糖分 g<input name="sugar_g" type="number" min="0" required /></label></div>
+        <div class="form-row"><label>蛋白質 g<input name="protein_g" type="number" min="0" value="0" /></label><label>脂肪 g<input name="fat_g" type="number" min="0" value="0" /></label></div>
+        <div class="form-row"><label>膳食纖維 g<input name="fiber_g" type="number" min="0" value="0" /></label><label>蔬菜份數<input name="vegetable_servings" type="number" min="0" value="0" /></label></div>
+        <label>碳水化合物 g<input name="carbs_g" type="number" min="0" value="0" /></label>
+        <button class="button button-primary full-button" value="default">確認並加入報告</button>
+      </form>
+    </dialog>
     <script src="app.js"></script>
   </body>
 </html>

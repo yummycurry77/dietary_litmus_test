@@ -22,11 +22,15 @@ const demoRecords = [
   { date:'2026-11-16', meal_type:'下午茶', item_name:'四季春珍波椰（微糖大杯）', kcal:390, protein_g:1.2, fat_g:1.5, carbs_g:93, sugar_g:38.5, fiber_g:0.5, vegetable_servings:0 },
   { date:'2026-11-16', meal_type:'晚餐', item_name:'雞胸沙拉盒', kcal:328, protein_g:31.2, fat_g:9.5, carbs_g:25.1, sugar_g:6.8, fiber_g:6.5, vegetable_servings:2 },
 ];
-let records = []; let period = 'week';
+const recordsKey = 'dietary-litmus-records';
+let records = JSON.parse(localStorage.getItem(recordsKey) || '[]'); let period = 'week';
 const profileKey = 'dietary-litmus-profile';
 let profile = JSON.parse(localStorage.getItem(profileKey) || 'null');
 const $ = (selector) => document.querySelector(selector);
 const sum = (rows, key) => rows.reduce((total, row) => total + Number(row[key] || 0), 0);
+const todayISO = () => new Date().toISOString().slice(0, 10);
+const saveRecords = () => localStorage.setItem(recordsKey, JSON.stringify(records));
+const parseCSVLine = (line) => { const cells=[]; let cell=''; let quoted=false; for(let i=0;i<line.length;i+=1){ const ch=line[i]; if(ch==='"' && line[i+1]==='"'){cell+='"';i+=1;} else if(ch==='"'){quoted=!quoted;} else if(ch===','&&!quoted){cells.push(cell.trim());cell='';} else cell+=ch; } cells.push(cell.trim()); return cells; };
 const grouped = (rows = records) => Object.values(rows.reduce((acc, row) => { (acc[row.date] ||= []).push(row); return acc; }, {})).map(rows => ({ date:rows[0].date, kcal:sum(rows,'kcal'), protein_g:sum(rows,'protein_g'), fat_g:sum(rows,'fat_g'), carbs_g:sum(rows,'carbs_g'), sugar_g:sum(rows,'sugar_g') }));
 const displayRows = () => { const dates = records.map(row => row.date).filter(Boolean).sort(); if (!dates.length) return []; const latest = new Date(`${dates.at(-1)}T00:00:00`); if (period === 'day') return records.filter(row => row.date === dates.at(-1)); if (period === 'month') return records.filter(row => row.date?.slice(0, 7) === dates.at(-1).slice(0, 7)); const start = new Date(latest); start.setDate(start.getDate() - 6); return records.filter(row => { const date = new Date(`${row.date}T00:00:00`); return date >= start && date <= latest; }); };
 function render() {
@@ -54,16 +58,19 @@ function calculateTargets(data) {
   return { kcal, protein, fat, sugar };
 }
 function openProfile(fill = true) { const form = $('#profileForm'); if (fill && profile) Object.entries(profile).forEach(([key,value])=>{ if(form.elements[key]) form.elements[key].value=value; }); $('#profileDialog').showModal(); }
-$('#demoButton').addEventListener('click',()=>{ records=[...demoRecords]; render(); });
-$('#clearButton').addEventListener('click',()=>{ records=[]; render(); });
-$('#manualButton').addEventListener('click',()=>{ $('#manualForm').reset(); $('#manualForm input[name=date]').value='2026-11-10'; $('#manualDialog').showModal(); });
+$('#demoButton').addEventListener('click',()=>{ records=demoRecords.map(row=>({...row,source_type:'demo',user_confirmed:true})); saveRecords(); render(); });
+$('#clearButton').addEventListener('click',()=>{ records=[]; saveRecords(); render(); });
+$('#manualButton').addEventListener('click',()=>{ $('#manualForm').reset(); $('#manualForm input[name=date]').value=todayISO(); $('#manualDialog').showModal(); });
 $('#manualClose').addEventListener('click',()=>$('#manualDialog').close());
 $('#profileClose').addEventListener('click',()=>{ if (profile) $('#profileDialog').close(); });
 $('#photoButton').addEventListener('click',()=>$('#photoInput').click());
-$('#photoInput').addEventListener('change',(e)=>{ if(e.target.files[0]) { const file=e.target.files[0]; alert(`已將「${file.name}」送交 AI 食物分析。正式版本會回傳品項、份量、營養值與信心狀態，確認後才會加入報告。`); } });
+$('#photoClose').addEventListener('click',()=>$('#photoDialog').close());
+$('#photoInput').addEventListener('change',async(e)=>{ const file=e.target.files[0]; if(!file)return; const form=$('#photoForm'); form.reset(); form.elements.date.value=todayISO(); $('#photoPreview').src=URL.createObjectURL(file); $('#photoStatus').textContent='正在準備 AI 分析結果；請確認或修改欄位後再加入報告。'; $('#photoDialog').showModal(); try { const payload=new FormData(); payload.append('image',file,file.name); const response=await fetch('/api/analyze-image',{method:'POST',body:payload}); if(!response.ok)throw new Error('AI API unavailable'); const result=await response.json(); Object.entries(result).forEach(([key,value])=>{if(form.elements[key]&&value!==null)form.elements[key].value=value;}); $('#photoStatus').textContent=`AI 分析完成，信心度 ${Math.round(Number(result.confidence||0)*100)}%。請確認內容。`; form.dataset.confidence=String(result.confidence||0); } catch { $('#photoStatus').textContent='目前尚未連接後端 AI API。你可以先手動修正分析欄位，再確認加入；正式版會由後端回傳結果。'; form.dataset.confidence='0'; } });
 document.querySelectorAll('.period-tab').forEach(button=>button.addEventListener('click',()=>{ document.querySelectorAll('.period-tab').forEach(b=>b.classList.remove('active')); button.classList.add('active'); period=button.dataset.period; render(); }));
-$('#manualForm').addEventListener('submit',(event)=>{ event.preventDefault(); const data=Object.fromEntries(new FormData(event.target)); records.push({ ...data, kcal:Number(data.kcal), sugar_g:Number(data.sugar_g), protein_g:Number(data.protein_g), fat_g:Number(data.fat_g), carbs_g:Number(data.carbs_g), fiber_g:Number(data.fiber_g||0), vegetable_servings:Number(data.vegetable_servings||0) }); $('#manualDialog').close(); render(); });
-$('#csvInput').addEventListener('change',(event)=>{ if(event.target.files[0]) alert('CSV 已收到。正式版本會交給 Agent 1 標準化後再進入報表。'); });
+const numericRecord = (data, source_type, confidence=1) => ({...data, source_type, confidence, user_confirmed:true, kcal:Number(data.kcal||0), sugar_g:Number(data.sugar_g||0), protein_g:Number(data.protein_g||0), fat_g:Number(data.fat_g||0), carbs_g:Number(data.carbs_g||0), fiber_g:Number(data.fiber_g||0), vegetable_servings:Number(data.vegetable_servings||0)});
+$('#manualForm').addEventListener('submit',(event)=>{ event.preventDefault(); const data=Object.fromEntries(new FormData(event.target)); records.push(numericRecord(data,'manual')); saveRecords(); $('#manualDialog').close(); render(); });
+$('#photoForm').addEventListener('submit',(event)=>{ event.preventDefault(); const data=Object.fromEntries(new FormData(event.target)); records.push(numericRecord(data,'ai_image',Number(event.target.dataset.confidence||0))); saveRecords(); $('#photoDialog').close(); $('#photoInput').value=''; render(); });
+$('#csvInput').addEventListener('change',(event)=>{ const file=event.target.files[0]; if(!file)return; const reader=new FileReader(); reader.onload=()=>{ const lines=String(reader.result).split(/\r?\n/).filter(Boolean); if(lines.length<2){alert('CSV 沒有可讀取的資料列。');return;} const headers=parseCSVLine(lines.shift()).map(h=>h.replace(/^﻿/,'')); const imported=lines.map(line=>{const values=parseCSVLine(line); const row=Object.fromEntries(headers.map((h,i)=>[h,values[i]??''])); return numericRecord({date:row.date||todayISO(),meal_type:row.meal_type||'其他',item_name:row.item_name||'未命名品項',kcal:row.kcal||row.actual_kcal,protein_g:row.protein_g||row.actual_protein_g,fat_g:row.fat_g||row.actual_fat_g,carbs_g:row.carbs_g||row.actual_carbs_g,sugar_g:row.sugar_g||row.actual_sugar_g,fiber_g:row.fiber_g,vegetable_servings:row.vegetable_servings},'csv');}); records.push(...imported); saveRecords(); render(); alert(`已匯入 ${imported.length} 筆飲食紀錄。`); }; reader.readAsText(file,'UTF-8'); event.target.value=''; });
 $('#profileButton').addEventListener('click',()=>openProfile());
 $('#profileForm').addEventListener('submit',(event)=>{ event.preventDefault(); const data=Object.fromEntries(new FormData(event.target)); data.height_cm=Number(data.height_cm); data.weight_kg=Number(data.weight_kg); data.age=Number(data.age); profile=data; localStorage.setItem(profileKey,JSON.stringify(profile)); $('#profileDialog').close(); $('#profileName').textContent=`${profile.height_cm}cm／${profile.weight_kg}kg`; render(); });
 $('#profileDialog').addEventListener('cancel',(event)=>{ if (!profile) event.preventDefault(); });
