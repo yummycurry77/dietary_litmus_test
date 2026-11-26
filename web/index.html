@@ -26,14 +26,16 @@
           <div class="capture-icon">＋</div>
           <div>
             <h2>新增飲食紀錄</h2>
-            <p>拍照、上傳營養標示，或直接手動輸入。辨識結果會先讓你確認。</p>
+            <p>用手機拍下食物或營養標示，交給 AI 分析後確認即可記錄。</p>
           </div>
         </div>
         <div class="capture-actions">
-          <button class="button button-primary" id="photoButton">交給 AI 分析照片</button>
+          <button class="button button-primary" id="photoButton">拍照記錄</button>
+          <button class="button button-secondary" id="galleryButton">從相簿選擇</button>
           <button class="button button-secondary" id="manualButton">手動輸入</button>
         </div>
-        <input id="photoInput" type="file" accept="image/*,video/*" hidden />
+        <input id="photoInput" type="file" accept="image/*" capture="environment" hidden />
+        <input id="galleryInput" type="file" accept="image/*" hidden />
       </section>
 
       <section class="dashboard-head">
