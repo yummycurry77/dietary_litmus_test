@@ -35,7 +35,17 @@
 python -m http.server 8000 --directory web
 ```
 
-然後開啟 <http://localhost:8000>。第一次開啟會要求輸入身高、體重、年齡、性別、活動量和目標，資料會保存在瀏覽器並用於估算建議攝取量。手動輸入和 CSV 會直接保存；照片會嘗試呼叫 `/api/analyze-image`，若後端尚未啟動，仍可在確認表單中手動修正分析結果後加入。正式環境的 AI API 金鑰必須放在後端環境變數。
+然後開啟 <http://localhost:8000>。第一次開啟會要求輸入身高、體重、年齡、性別、活動量和目標，資料會保存在瀏覽器並用於估算建議攝取量。手動輸入和 CSV 會直接保存；照片會先縮小後送到 `/api/analyze-image`，回傳結果仍需使用者確認才會加入。正式環境的 AI API 金鑰必須放在後端環境變數，不能放進 `web/app.js`。
+
+## 啟用正式圖片分析 API
+
+repository 已附上 Vercel Node serverless function：`api/analyze-image.js`。部署時在 Vercel 專案設定：
+
+1. 將 `OPENAI_API_KEY` 設為環境變數；可選擇設定 `OPENAI_VISION_MODEL`（預設 `gpt-4.1-mini`）與 `ALLOWED_ORIGIN`。
+2. 部署 repository 根目錄，確認 `/api/analyze-image` 可用。
+3. 將 Vercel API 網址設定給前端，例如在 `web/index.html` 的 `app.js` 前加入：`<script>window.DIETARY_API_BASE='https://你的-api-domain.vercel.app/api';</script>`。
+
+GitHub Pages 只負責靜態網站，不能執行這個 API；未設定 API 時，網站仍會開啟照片確認表單，但不會假裝 AI 已完成分析。
 
 ## 目錄
 

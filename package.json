@@ -1,0 +1,5 @@
+{
+  "name": "dietary-litmus-api",
+  "private": true,
+  "engines": { "node": ">=18" }
+}
