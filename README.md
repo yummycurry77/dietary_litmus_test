@@ -39,13 +39,13 @@ python -m http.server 8000 --directory web
 
 ## 啟用正式圖片分析 API
 
-repository 已附上 Vercel Node serverless function：`api/analyze-image.js`。部署時在 Vercel 專案設定：
+repository 已附上 Vercel Node serverless function：`api/analyze-image.js`。Vercel 設定同時把根路徑導向 `web/`，因此部署完成後網站與圖片 API 會使用同一個網址。部署時在 Vercel 專案設定：
 
 1. 將 `OPENAI_API_KEY` 設為環境變數；可選擇設定 `OPENAI_VISION_MODEL`（預設 `gpt-4.1-mini`）與 `ALLOWED_ORIGIN`。
 2. 部署 repository 根目錄，確認 `/api/analyze-image` 可用。
-3. 將 Vercel API 網址設定給前端，例如在 `web/index.html` 的 `app.js` 前加入：`<script>window.DIETARY_API_BASE='https://你的-api-domain.vercel.app/api';</script>`。
+3. 使用 Vercel 網址開啟網站。前端會自動使用同源的 `/api/analyze-image`，不需要修改 `web/app.js`。
 
-GitHub Pages 只負責靜態網站，不能執行這個 API；未設定 API 時，網站仍會開啟照片確認表單，但不會假裝 AI 已完成分析。
+GitHub Pages 仍可作為靜態展示網址。要啟用正式圖片分析，請使用 Vercel 部署後的同源網址。
 
 ## 目錄
 

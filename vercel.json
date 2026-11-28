@@ -1,5 +1,10 @@
 {
   "functions": {
     "api/analyze-image.js": { "maxDuration": 60, "memory": 1024 }
-  }
+  },
+  "rewrites": [
+    { "source": "/", "destination": "/web/index.html" },
+    { "source": "/app.js", "destination": "/web/app.js" },
+    { "source": "/styles.css", "destination": "/web/styles.css" }
+  ]
 }

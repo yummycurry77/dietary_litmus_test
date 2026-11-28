@@ -1,4 +1,5 @@
 const MAX_IMAGE_CHARS = 8_000_000;
+const ALLOWED_IMAGE_TYPES = new Set(['jpeg', 'jpg', 'png', 'webp', 'gif']);
 
 const send = (res, status, body) => {
   res.statusCode = status;
@@ -46,6 +47,10 @@ module.exports = async (req, res) => {
     const body = JSON.parse(await readBody(req));
     if (typeof body.image_data !== 'string' || !body.image_data.startsWith('data:image/')) {
       return send(res, 400, { error: '請提供有效的食物圖片。' });
+    }
+    const imageType = body.image_data.match(/^data:image\/([^;]+);base64,/i)?.[1]?.toLowerCase();
+    if (!imageType || !ALLOWED_IMAGE_TYPES.has(imageType)) {
+      return send(res, 415, { error: '目前只支援 JPG、PNG、WebP 或 GIF 圖片。' });
     }
     if (body.image_data.length > MAX_IMAGE_CHARS) return send(res, 413, { error: '圖片太大，請重新拍攝或選擇較小的照片。' });
 
