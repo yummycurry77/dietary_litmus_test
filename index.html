@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>飲食照妖鏡</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">DIETARY LITMUS TEST</p>
+          <h1>飲食照妖鏡</h1>
+          <p class="hero-copy">把每天的超商與手搖飲，整理成看得懂、做得到的飲食建議。</p>
+        </div>
+        <div class="hero-actions">
+          <button class="button button-light" id="demoButton">載入示範資料</button>
+          <label class="button button-outline" for="csvInput">匯入 CSV</label>
+          <input id="csvInput" type="file" accept=".csv,text/csv" hidden />
+        </div>
+      </header>
+
+      <section class="capture-card">
+        <div class="capture-main">
+          <div class="capture-icon">＋</div>
+          <div>
+            <h2>新增飲食紀錄</h2>
+            <p>用手機拍下食物或營養標示，交給 AI 分析後確認即可記錄。</p>
+          </div>
+        </div>
+        <div class="capture-actions">
+          <button class="button button-primary" id="photoButton">拍照記錄</button>
+          <button class="button button-secondary" id="galleryButton">從相簿選擇</button>
+          <button class="button button-secondary" id="manualButton">手動輸入</button>
+        </div>
+        <input id="photoInput" type="file" accept="image/*" capture="environment" hidden />
+        <input id="galleryInput" type="file" accept="image/*" hidden />
+      </section>
+
+      <section class="dashboard-head">
+        <div>
+          <p class="section-kicker">營養儀表板</p>
+          <h2 id="periodTitle">本週概況</h2>
+        </div>
+        <div class="period-tabs" role="tablist" aria-label="報告期間">
+          <button class="period-tab active" data-period="day">今日</button>
+          <button class="period-tab" data-period="week">本週</button>
+          <button class="period-tab" data-period="month">本月</button>
+        </div>
+        <button class="profile-chip" id="profileButton"><span class="profile-avatar">身</span><span><b id="profileName">我的檔案</b><small>編輯身體指數</small></span></button>
+      </section>
+      <section class="recommendation-strip" id="recommendationStrip"></section>
+
+      <section class="metric-grid" id="metricGrid"></section>
+
+      <section class="content-grid">
+        <article class="panel chart-panel">
+          <div class="panel-title-row">
+            <div><p class="section-kicker">攝取趨勢</p><h3>熱量與糖分</h3></div>
+            <span class="status-pill">資料已標準化</span>
+          </div>
+          <div class="chart" id="trendChart" aria-label="熱量與糖分趨勢圖"></div>
+          <div class="legend"><span><i class="dot kcal"></i>熱量 kcal</span><span><i class="dot sugar"></i>糖分 g</span></div>
+        </article>
+
+        <article class="panel pfc-panel">
+          <div class="panel-title-row"><div><p class="section-kicker">營養結構</p><h3>PFC 比例</h3></div></div>
+          <div class="pfc-visual"><div class="donut" id="donut"><span id="pfcTotal">100%</span></div><div class="pfc-list" id="pfcList"></div></div>
+        </article>
+      </section>
+
+      <section class="content-grid lower-grid">
+        <article class="panel records-panel">
+          <div class="panel-title-row"><div><p class="section-kicker">最近紀錄</p><h3>已確認的飲食</h3></div><button class="text-button" id="clearButton">清除目前紀錄</button></div>
+          <div id="recordsList" class="records-list"></div>
+        </article>
+        <article class="panel insight-panel">
+          <p class="section-kicker">個人化洞察</p>
+          <h3>營養缺口與個人化建議</h3>
+          <div id="insightList" class="insight-list"></div>
+        </article>
+      </section>
+
+      <footer>原型資料僅供展示。正式版本會接上 AI 分析、資料庫與三角色流程。</footer>
+    </main>
+
+    <dialog id="profileDialog">
+      <form method="dialog" id="profileForm" class="manual-form profile-form">
+        <div class="panel-title-row"><div><p class="section-kicker">第一次設定</p><h3>先建立你的身體指數</h3></div><button type="button" class="close-button" id="profileClose">×</button></div>
+        <p class="dialog-copy">身高和體重是必要資料；其他欄位能讓每日建議更貼近你的狀況。資料只保存在這個瀏覽器。</p>
+        <div class="form-row"><label>身高 cm<input name="height_cm" type="number" min="80" max="250" required placeholder="例如 165" /></label><label>體重 kg<input name="weight_kg" type="number" min="25" max="300" step="0.1" required placeholder="例如 60" /></label></div>
+        <div class="form-row"><label>年齡<input name="age" type="number" min="13" max="100" required placeholder="例如 25" /></label><label>生理性別<select name="sex" required><option value="female">女性</option><option value="male">男性</option></select></label></div>
+        <label>平常活動量<select name="activity"><option value="1.2">久坐，少運動</option><option value="1.375">每週運動 1–3 天</option><option value="1.55">每週運動 3–5 天</option><option value="1.725">每週運動 6–7 天</option></select></label>
+        <label>目前目標<select name="goal"><option value="maintain">維持體重</option><option value="lose">減脂</option><option value="gain">增加肌肉</option></select></label>
+        <button class="button button-primary full-button" value="default">儲存身體指數</button>
+      </form>
+    </dialog>
+
+    <dialog id="manualDialog">
+      <form method="dialog" id="manualForm" class="manual-form">
+        <div class="panel-title-row"><div><p class="section-kicker">手動輸入</p><h3>新增一筆飲食</h3></div><button type="button" class="close-button" id="manualClose">×</button></div>
+        <label>品項名稱<input name="item_name" required placeholder="例如：全麥堅果吐司" /></label>
+        <div class="form-row"><label>餐別<select name="meal_type"><option>早餐</option><option>午餐</option><option>晚餐</option><option>點心</option><option>飲料</option></select></label><label>日期<input name="date" type="date" required /></label></div>
+        <div class="form-row"><label>熱量 kcal<input name="kcal" type="number" min="0" required /></label><label>糖分 g<input name="sugar_g" type="number" min="0" required /></label></div>
+        <div class="form-row"><label>蛋白質 g<input name="protein_g" type="number" min="0" value="0" /></label><label>脂肪 g<input name="fat_g" type="number" min="0" value="0" /></label></div>
+        <div class="form-row"><label>膳食纖維 g<input name="fiber_g" type="number" min="0" value="0" /></label><label>蔬菜份數<input name="vegetable_servings" type="number" min="0" value="0" /></label></div>
+        <label>碳水化合物 g<input name="carbs_g" type="number" min="0" value="0" /></label>
+        <button class="button button-primary full-button" value="default">儲存並加入報告</button>
+      </form>
+    </dialog>
+    <dialog id="photoDialog">
+      <form method="dialog" id="photoForm" class="manual-form">
+        <div class="panel-title-row"><div><p class="section-kicker">AI 圖片分析</p><h3>確認分析結果</h3></div><button type="button" class="close-button" id="photoClose">×</button></div>
+        <img id="photoPreview" class="photo-preview" alt="待確認的食物照片" />
+        <p id="photoStatus" class="dialog-copy">分析結果會先顯示在這裡，請確認後才會加入報表。</p>
+        <label>品項名稱<input name="item_name" required placeholder="例如：全麥堅果吐司" /></label>
+        <div class="form-row"><label>餐別<select name="meal_type"><option>早餐</option><option>午餐</option><option>晚餐</option><option>點心</option><option>飲料</option></select></label><label>日期<input name="date" type="date" required /></label></div>
+        <div class="form-row"><label>熱量 kcal<input name="kcal" type="number" min="0" required /></label><label>糖分 g<input name="sugar_g" type="number" min="0" required /></label></div>
+        <div class="form-row"><label>蛋白質 g<input name="protein_g" type="number" min="0" value="0" /></label><label>脂肪 g<input name="fat_g" type="number" min="0" value="0" /></label></div>
+        <div class="form-row"><label>膳食纖維 g<input name="fiber_g" type="number" min="0" value="0" /></label><label>蔬菜份數<input name="vegetable_servings" type="number" min="0" value="0" /></label></div>
+        <label>碳水化合物 g<input name="carbs_g" type="number" min="0" value="0" /></label>
+        <button class="button button-primary full-button" value="default">確認並加入報告</button>
+      </form>
+    </dialog>
+    <script src="app.js"></script>
+  </body>
+</html>
