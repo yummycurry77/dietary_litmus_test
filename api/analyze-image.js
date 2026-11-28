@@ -1,5 +1,8 @@
 const MAX_IMAGE_CHARS = 8_000_000;
 const ALLOWED_IMAGE_TYPES = new Set(['jpeg', 'jpg', 'png', 'webp', 'gif']);
+const CGU_BASE_URL = (process.env.CGU_BASE_URL || 'https://air.cgu.edu.tw/cgullmapi/v1').replace(/\/$/, '');
+const CGU_API_KEY = process.env.CGU_API_KEY;
+const CGU_VISION_MODEL = process.env.CGU_VISION_MODEL || 'gpt-4o-mini';
 
 const send = (res, status, body) => {
   res.statusCode = status;
@@ -41,7 +44,7 @@ const schema = {
 module.exports = async (req, res) => {
   if (req.method === 'OPTIONS') return send(res, 204, {});
   if (req.method !== 'POST') return send(res, 405, { error: 'Only POST is supported.' });
-  if (!process.env.OPENAI_API_KEY) return send(res, 503, { error: '後端尚未設定 OPENAI_API_KEY。' });
+  if (!CGU_API_KEY) return send(res, 503, { error: '後端尚未設定 CGU_API_KEY。' });
 
   try {
     const body = JSON.parse(await readBody(req));
@@ -54,11 +57,11 @@ module.exports = async (req, res) => {
     }
     if (body.image_data.length > MAX_IMAGE_CHARS) return send(res, 413, { error: '圖片太大，請重新拍攝或選擇較小的照片。' });
 
-    const openai = await fetch('https://api.openai.com/v1/responses', {
+    const openai = await fetch(`${CGU_BASE_URL}/responses`, {
       method: 'POST',
-      headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}`, 'Content-Type': 'application/json' },
+      headers: { Authorization: `Bearer ${CGU_API_KEY}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: process.env.OPENAI_VISION_MODEL || 'gpt-4.1-mini',
+        model: CGU_VISION_MODEL,
         temperature: 0.1,
         input: [{ role: 'user', content: [
           { type: 'input_text', text: '你是台灣飲食紀錄助手。請辨識照片中的主要食物或飲料；若看得到營養標示，優先使用標示數值並換算成照片中一份實際攝取量。若看不到標示，請依常見份量估算，並降低 confidence。只回傳符合 JSON schema 的資料，不要把估算值說成確定值。所有數值為非負數；notes 請說明是否讀到標示、估算依據與需要使用者確認的地方。這不是醫療診斷。' },

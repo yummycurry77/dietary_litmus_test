@@ -35,17 +35,17 @@
 python -m http.server 8000 --directory web
 ```
 
-然後開啟 <http://localhost:8000>。第一次開啟會要求輸入身高、體重、年齡、性別、活動量和目標，資料會保存在瀏覽器並用於估算建議攝取量。手動輸入和 CSV 會直接保存；照片會先縮小後送到 `/api/analyze-image`，回傳結果仍需使用者確認才會加入。正式環境的 AI API 金鑰必須放在後端環境變數，不能放進 `web/app.js`。
+然後開啟 <http://localhost:8000>。第一次開啟會要求輸入身高、體重、年齡、性別、活動量和目標，資料會保存在瀏覽器並用於估算建議攝取量。手動輸入和 CSV 會直接保存；照片會先縮小後送到 `/api/analyze-image`，回傳結果仍需使用者確認才會加入。正式環境的 CGU API 金鑰必須放在後端環境變數，不能放進 `web/app.js`。
 
 ## 啟用正式圖片分析 API
 
 repository 已附上 Vercel Node serverless function：`api/analyze-image.js`。Vercel 設定同時把根路徑導向 `web/`，因此部署完成後網站與圖片 API 會使用同一個網址。部署時在 Vercel 專案設定：
 
-1. 將 `OPENAI_API_KEY` 設為環境變數；可選擇設定 `OPENAI_VISION_MODEL`（預設 `gpt-4.1-mini`）與 `ALLOWED_ORIGIN`。
+1. 將 `CGU_API_KEY` 設為長庚大學 Mercury API 金鑰。API 位址預設為 `https://air.cgu.edu.tw/cgullmapi/v1`，可用 `CGU_BASE_URL` 覆寫。請依學校 `/models` 清單設定可用的視覺模型到 `CGU_VISION_MODEL`，例如 `gpt-4o-mini`，也可設定 `ALLOWED_ORIGIN`。
 2. 部署 repository 根目錄，確認 `/api/analyze-image` 可用。
 3. 使用 Vercel 網址開啟網站。前端會自動使用同源的 `/api/analyze-image`，不需要修改 `web/app.js`。
 
-GitHub Pages 仍可作為靜態展示網址。要啟用正式圖片分析，請使用 Vercel 部署後的同源網址。
+GitHub Pages 仍可作為靜態展示網址。要啟用正式圖片分析，請使用 Vercel 部署後的同源網址。學校 API 金鑰若曾出現在截圖、聊天或公開紀錄，請先撤銷再建立新金鑰。
 
 ## 目錄
 
